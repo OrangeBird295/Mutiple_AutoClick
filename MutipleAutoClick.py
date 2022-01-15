@@ -42,6 +42,7 @@ def onMouseClick(x, y, button, pressed):  ## Check Click Mouse
     print(x, y)
     if not pressed: # Stop listener
         listener = None
+        listener.stop()
         return False
 
 def GetPosition():  ## Find Position (x, y)
@@ -60,7 +61,7 @@ def SubmitPositon(): ## Submit Position
         data.insert(NumberOfSubmit, [tempx, tempy, tempdelay])
         NumberOfSubmit = NumberOfSubmit + 1
         print(data)
-        print(data[0][1])
+        # print(data[0][1])
 
 def Refreshtable(): ## Refresd Data
     clear_all()
@@ -149,8 +150,8 @@ B3.pack()
 ################################# Frame3 #################################
 F3 = ttk.Labelframe(T3,text='Start-Stop') #สร้างเฟรมใหม่
 F3.place(x=170, y=50) #และสามารถใช้แบบ place ได้5
-B4 = ttk.Button(F3, text='Start or Press s', command=StartClick) 
-B4.grid(row=3, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
+# B4 = ttk.Button(F3, text='Start or Press s', command=Cre) 
+# B4.grid(row=3, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
 # B5 = ttk.Button(F3, text='Stop or Press e', command=EndClick) 
 # B5.grid(row=4, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
 
