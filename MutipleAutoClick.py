@@ -40,9 +40,10 @@ def onMouseClick(x, y, button, pressed):  ## Check Click Mouse
     Commentx.set(x)
     Commenty.set(y)
     print(x, y)
+    listener.stop()
     if not pressed: # Stop listener
         listener = None
-        listener.stop()
+        # listener.stop()
         return False
 
 def GetPosition():  ## Find Position (x, y)
@@ -81,8 +82,8 @@ def StartClick(): ## Start Click
             print('In Loop', i)
             mouse.position = (data[i][0], data[i][1])
             print(data[i][0], data[i][1])
-            # delay=float(((data[i][2])*1000))
-            GUI.after(4000,None)
+            delay=int(((data[i][2])*1000))
+            GUI.after(delay,None)
             # mouse.click(Button.left, 20)  cant use (idk)
             pyautogui.click()
             ## time.sleep(3) cant use with tkinter
@@ -150,8 +151,8 @@ B3.pack()
 ################################# Frame3 #################################
 F3 = ttk.Labelframe(T3,text='Start-Stop') #สร้างเฟรมใหม่
 F3.place(x=170, y=50) #และสามารถใช้แบบ place ได้5
-# B4 = ttk.Button(F3, text='Start or Press s', command=Cre) 
-# B4.grid(row=3, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
+B4 = ttk.Button(F3, text='Start or Press s', command=StartClick) 
+B4.grid(row=3, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
 # B5 = ttk.Button(F3, text='Stop or Press e', command=EndClick) 
 # B5.grid(row=4, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
 
