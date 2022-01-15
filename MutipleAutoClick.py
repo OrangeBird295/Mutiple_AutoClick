@@ -62,7 +62,30 @@ def SubmitPositon(): ## Submit Position
         print(data)
         print(data[0][1])
 
+def Refreshtable(): ## Refresd Data
+    clear_all()
+    for i in range(len(data)):
+        Table1.insert(parent='', index='end', iid=i, text='',
+        values=(i+1, data[i][0], data[i][1], data[i][2]))
 
+def clear_all(): ## Clear Values in treeview before refresh
+   for item in Table1.get_children():
+      Table1.delete(item)
+
+def StartClick(): ## Start Click
+    ButtonPress = True
+    mouse = Controller()
+    if ButtonPress:
+        for i in range(len(data)):
+            print('In Loop', i)
+            mouse.position = (data[i][0], data[i][1])
+            print(data[i][0], data[i][1])
+            # delay=float(((data[i][2])*1000))
+            GUI.after(4000,None)
+            # mouse.click(Button.left, 20)  cant use (idk)
+            pyautogui.click()
+            ## time.sleep(3) cant use with tkinter
+        StartClick()
 
 ################################# Frame1 #################################
 F1 = ttk.Labelframe(T1,text='Position') #สร้างเฟรมใหม่
@@ -94,6 +117,42 @@ B1.grid(row=3, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำ�
 B2 = ttk.Button(F1, text='Submit', command=SubmitPositon) 
 B2.grid(row=4, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
 
+
+################################# Frame2 #################################
+F2 = ttk.Labelframe(T2,text='CheckList') #สร้างเฟรมใหม่
+F2.place(x=50, y=50) #และสามารถใช้แบบ place ได้5
+scroll = Scrollbar(F2,orient='vertical' )
+scroll.pack(side=RIGHT, fill=Y)
+Table1 = ttk.Treeview(F2,yscrollcommand=scroll.set)
+Table1.pack()
+scroll.config(command=Table1.yview)
+Table1['columns'] = ('Id', 'Position X', 'Position Y', 'Delay Time')
+### format our column ###
+Table1.column("#0", width=0,  stretch=NO)
+Table1.column("Id",anchor=CENTER, width=100)
+Table1.column("Position X",anchor=CENTER, width=100)
+Table1.column("Position Y",anchor=CENTER,width=100)
+Table1.column("Delay Time",anchor=CENTER,width=100)
+### Create Headings ###
+Table1.heading("#0",text="",anchor=CENTER)
+Table1.heading("Id",text="Id",anchor=CENTER)
+Table1.heading("Position X",text="x",anchor=CENTER)
+Table1.heading("Position Y",text="y",anchor=CENTER)
+Table1.heading("Delay Time",text="delay",anchor=CENTER)
+Table1.pack()
+
+B3 = ttk.Button(F2, text='Refresh', command=Refreshtable)   #### แก้ไม่เอาไป pack ด้วย เพราะในอนาคตจะเพิ่มปุ่ม delete move อื่นๆ
+# B3.grid(row=4, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
+B3.pack()
+
+
+################################# Frame3 #################################
+F3 = ttk.Labelframe(T3,text='Start-Stop') #สร้างเฟรมใหม่
+F3.place(x=170, y=50) #และสามารถใช้แบบ place ได้5
+B4 = ttk.Button(F3, text='Start or Press s', command=StartClick) 
+B4.grid(row=3, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
+# B5 = ttk.Button(F3, text='Stop or Press e', command=EndClick) 
+# B5.grid(row=4, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
 
 
 
