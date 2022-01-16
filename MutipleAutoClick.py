@@ -4,7 +4,7 @@ from pynput.mouse import Button, Controller
 from pynput.keyboard import Listener, KeyCode
 from tkinter import * # พวกGUI MAIN Modul
 from tkinter import ttk # ไฟล์ย่อย
-from time import sleep
+# from time import sleep
 
 ################################# Config #################################
 listener = None  # to keep listener
