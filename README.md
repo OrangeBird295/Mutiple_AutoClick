@@ -1,7 +1,7 @@
 # OrangeBird295/Demo_git
 
 It is a program created to play nft games when you have to sit and click buttons all the time.
-
+The program is not yet complete, for example, it accepts a function from the keyboard, but it works for its intended purpose.
 ## Installation
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install.
