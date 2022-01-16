@@ -10,10 +10,9 @@ from time import sleep
 listener = None  # to keep listener
 NumberOfSubmit = 0
 data = []
-
-
-
-
+start_stop_key = KeyCode(char='s')
+exit_key = KeyCode(char='e')
+click_running = False
 GUI = Tk()
 GUI.geometry('500x400+300+50')
 GUI.title('Auto Click')
@@ -25,7 +24,6 @@ Tab = ttk.Notebook(GUI)
 T1 = Frame(GUI)
 T2 = Frame(GUI)
 T3 = Frame(GUI)
-# T4 = Frame(GUI)
 Tab.pack(fill=BOTH, expand=1) #ทำให้Tabของเรามีขนาดใหญ่ทั้งหมด
 iconT1 = PhotoImage(file='add-icon.png')
 iconT2 = PhotoImage(file='check-list.png')
@@ -35,23 +33,23 @@ Tab.add(T2, text='List',image=iconT2, compound='left')
 Tab.add(T3, text='Start-Stop',image=iconT3, compound='left')  
 
 ################################# Action Button #################################
-def onMouseClick(x, y, button, pressed):  ## Check Click Mouse
+def OnMouseClick(x, y, button, pressed):  ## Check Click Mouse
     global listener
     Commentx.set(x)
     Commenty.set(y)
     print(x, y)
-    listener.stop()
-    if not pressed: # Stop listener
+    if not pressed: 
         listener = None
-        # listener.stop()
         return False
 
 def GetPosition():  ## Find Position (x, y)
     global listener
     if not listener:
         print("Start listener...")
-        listener = mouse.Listener(on_click=onMouseClick)
-        listener.start() # start thread
+        listener = mouse.Listener(on_click=OnMouseClick)
+        listener.start() 
+    else:
+        print("listener already running...")
         
 def SubmitPositon(): ## Submit Position
     global NumberOfSubmit
@@ -62,32 +60,52 @@ def SubmitPositon(): ## Submit Position
         data.insert(NumberOfSubmit, [tempx, tempy, tempdelay])
         NumberOfSubmit = NumberOfSubmit + 1
         print(data)
-        # print(data[0][1])
 
 def Refreshtable(): ## Refresd Data
-    clear_all()
+    Clear_all()
     for i in range(len(data)):
         Table1.insert(parent='', index='end', iid=i, text='',
         values=(i+1, data[i][0], data[i][1], data[i][2]))
 
-def clear_all(): ## Clear Values in treeview before refresh
+def Clear_all(): ## Clear Values in treeview before refresh
    for item in Table1.get_children():
       Table1.delete(item)
 
 def StartClick(): ## Start Click
-    ButtonPress = True
+    # ButtonPress = True
     mouse = Controller()
-    if ButtonPress:
+    if click_running:
         for i in range(len(data)):
             print('In Loop', i)
             mouse.position = (data[i][0], data[i][1])
             print(data[i][0], data[i][1])
             delay=int(((data[i][2])*1000))
             GUI.after(delay,None)
-            # mouse.click(Button.left, 20)  cant use (idk)
+            ## mouse.click(Button.left, 20)  cant use (idk)
             pyautogui.click()
             ## time.sleep(3) cant use with tkinter
         StartClick()
+
+def Onpress(key): ##Get key on keyboard to action
+    global click_running, listener
+    if key == start_stop_key:
+        if click_running:
+            click_running = False
+        else:
+            click_running = True
+            StartClick()
+    elif key == exit_key:
+        listener = None     
+        
+def CreateStart(): 
+    global listener
+    if not listener:
+        print("Start listener...")
+        listener = keyboard.Listener(on_press=Onpress)
+        listener.start()
+    else:
+        print("listener already running...")
+
 
 ################################# Frame1 #################################
 F1 = ttk.Labelframe(T1,text='Position') #สร้างเฟรมใหม่
@@ -151,15 +169,8 @@ B3.pack()
 ################################# Frame3 #################################
 F3 = ttk.Labelframe(T3,text='Start-Stop') #สร้างเฟรมใหม่
 F3.place(x=170, y=50) #และสามารถใช้แบบ place ได้5
-B4 = ttk.Button(F3, text='Start or Press s', command=StartClick) 
+B4 = ttk.Button(F3, text='Start Click', command=CreateStart) 
 B4.grid(row=3, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
-# B5 = ttk.Button(F3, text='Stop or Press e', command=EndClick) 
-# B5.grid(row=4, column=1, padx=20, pady=10, ipady=10, ipadx=20) #ipadx,y ทำให้ตัวปุ่มใหญ่ขึ้น
-
-
-
-
-
 
 
 GUI.mainloop()
